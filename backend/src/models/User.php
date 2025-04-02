@@ -1,40 +1,40 @@
 <?php
+require_once __DIR__ . '/../config/database.php';
+
 class User {
-    public $id;
-    public $email;
-    public $password;
-    public $role;
+    private $conn;
+    private $table = "users";
 
-    // Конструктор за създаване на потребителски обект
-    public function __construct($id, $email, $password, $role) {
-        $this->id = $id;
-        $this->email = $email;
-        $this->password = $password;
-        $this->role = $role;
+    public function __construct($db) {
+        $this->conn = $db;
     }
 
-    // Функция за създаване на потребител в базата данни
-    public static function create($email, $password, $role) {
-        global $pdo;
-        $stmt = $pdo->prepare("INSERT INTO users (email, password, role) VALUES (:email, :password, :role)");
-        $stmt->execute(['email' => $email, 'password' => password_hash($password, PASSWORD_DEFAULT), 'role' => $role]);
-        return $pdo->lastInsertId();
+    public function createUser($name, $email, $password, $role) {
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $query = "INSERT INTO " . $this->table . " (full_name, email, password_hash, role) VALUES (:name, :email, :password, :role)";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":name", $name);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":password", $hashedPassword);
+        $stmt->bindParam(":role", $role);
+
+        return $stmt->execute();
     }
 
-    // Функция за намиране на потребител по email
-    public static function findByEmail($email) {
-        global $pdo;
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
-        $stmt->execute(['email' => $email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user) {
-            return new self($user['id'], $user['email'], $user['password'], $user['role']);
-        }
-        return null;
+    public function getUserByEmail($email) {
+        $query = "SELECT * FROM " . $this->table . " WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":email", $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    // Функция за проверка на паролата
-    public static function verifyPassword($inputPassword, $hashedPassword) {
-        return password_verify($inputPassword, $hashedPassword);
+    public function getUserById($id) {
+        $query = "SELECT * FROM users WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
+?>

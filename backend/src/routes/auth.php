@@ -1,22 +1,51 @@
 <?php
 require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../jwt.php';  // Файл за работа с JWT
+require_once __DIR__ . '/../config/jwt.php';
 
-// Регистрация на потребител
-function register($email, $password, $role) {
-    if (User::findByEmail($email)) {
-        return ["message" => "Потребителят вече съществува", "status" => 400];
-    }
-    $userId = User::create($email, $password, $role);
-    return ["message" => "Регистрацията беше успешна", "status" => 201];
-}
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+header("Access-Control-Allow-Methods: POST");
 
-// Логин на потребител
-function login($email, $password) {
-    $user = User::findByEmail($email);
-    if (!$user || !User::verifyPassword($password, $user->password)) {
-        return ["message" => "Невалидни данни за вход", "status" => 401];
+$database = new Database();
+$db = $database->getConnection();
+$user = new User($db);
+
+$requestMethod = $_SERVER["REQUEST_METHOD"];
+
+if ($requestMethod == "POST") {
+    $data = json_decode(file_get_contents("php://input"));
+
+    if ($_GET['action'] == 'register') {
+        if (!empty($data->name) && !empty($data->email) && !empty($data->password) && !empty($data->role)) {
+            if ($user->createUser($data->name, $data->email, $data->password, $data->role)) {
+                // Взимаме ID на новия потребител
+                $userData = $user->getUserByEmail($data->email);
+                $token = JwtHandler::generateToken($userData['id']);
+
+                echo json_encode([
+                    "message" => "Регистрацията е успешна.",
+                    "token" => $token
+                ]);
+            } else {
+                echo json_encode(["message" => "Грешка при регистрация."]);
+            }
+        } else {
+            echo json_encode(["message" => "Всички полета са задължителни."]);
+        }
+    } elseif ($_GET['action'] == 'login') {
+        if (!empty($data->email) && !empty($data->password)) {
+            $userData = $user->getUserByEmail($data->email);
+            if ($userData && password_verify($data->password, $userData['password_hash'])) {
+                $token = JwtHandler::generateToken($userData['id']);
+                echo json_encode(["message" => "Входът е успешен.", "token" => $token]);
+            } else {
+                echo json_encode(["message" => "Грешен email или парола."]);
+            }
+        } else {
+            echo json_encode(["message" => "Всички полета са задължителни."]);
+        }
     }
-    $token = createJWT($user->id, $user->role);
-    return ["token" => $token];
+} else {
+    echo json_encode(["message" => "Методът не е позволен."]);
 }
+?>
