@@ -2,16 +2,19 @@
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../config/jwt.php';
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json");
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 $database = new Database();
 $db = $database->getConnection();
 $user = new User($db);
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
-
+//if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+//    http_response_code(200);
+//    exit();
+//}
 if ($requestMethod == "POST") {
     $data = json_decode(file_get_contents("php://input"));
 
