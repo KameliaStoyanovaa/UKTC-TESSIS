@@ -1,4 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Дебъг – виж какво получаваш като action
+file_put_contents('debug.log', print_r($_GET, true), FILE_APPEND);
+
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../config/jwt.php';
 
@@ -53,17 +59,6 @@ if ($requestMethod == "POST") {
     // Във файла auth.php
 
 if ($_GET['action'] == 'update_status') {
-    // Проверяваме дали са подадени потребителски данни и новия статус
-    // if (!empty($data->userId) && !empty($data->status)) {
-    //     // Потребителят се записва или отписва в таблицата `student_status`
-    //     if ($user->updateStudentStatus($data->userId, $data->status)) {
-    //         echo json_encode(["message" => "Статусът на потребителя беше успешно актуализиран."]);
-    //     } else {
-    //         echo json_encode(["message" => "Грешка при актуализиране на статуса."]);
-    //     }
-    // } else {
-    //     echo json_encode(["message" => "Не са подадени валидни данни."]);
-    // }
     if (!empty($data->userId) && !empty($data->status)) {
 
         $lastStatus = $user->getLastStatus($data->userId);
@@ -94,6 +89,30 @@ if ($_GET['action'] == 'update_status') {
     } else {
         echo json_encode(["message" => "Всички полета са задължителни."]);
     }
+}
+elseif ($_GET['action'] === 'get_status_lists') {
+
+    $students = $user->getLatestStatuses();
+
+    file_put_contents('debug.log', print_r($students, true), FILE_APPEND);
+
+    $enrolled = [];
+    $unenrolled = [];
+
+    foreach ($students as $s) {
+        if ($s['status'] === 'enrolled') {
+            $enrolled[] = $s;
+        } elseif ($s['status'] === 'unenrolled') {
+            $unenrolled[] = $s;
+        }
+    }
+
+    echo json_encode([
+        "enrolled" => $enrolled,
+        "unenrolled" => $unenrolled
+    ]);
+    exit;
+
 }
 
 }

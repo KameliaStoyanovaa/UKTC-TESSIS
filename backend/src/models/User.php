@@ -63,5 +63,18 @@ public function getLastStatus($userId) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result ? $result['status'] : null;
 }
+public function getLatestStatuses() {
+    $query = "
+        SELECT u.id, u.full_name, u.email, ss.status, ss.timestamp, ss.location
+        FROM users u
+        LEFT JOIN student_status ss ON u.id = ss.student_id
+        ORDER BY ss.timestamp DESC
+    ";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>
