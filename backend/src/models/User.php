@@ -36,5 +36,32 @@ class User {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    // Във файла models/User.php
+
+    public function updateStudentStatus($userId, $status, $location = null) {
+        if ($status === 'unenrolled') {
+            $query = "INSERT INTO student_status (student_id, status, location) VALUES (:student_id, :status, :location)";
+        } else {
+            $query = "INSERT INTO student_status (student_id, status) VALUES (:student_id, :status)";
+        }
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':student_id', $userId);
+        $stmt->bindParam(':status', $status);
+    
+        if ($status === 'unenrolled') {
+            $stmt->bindParam(':location', $location);
+        }
+    
+        return $stmt->execute();
+    }
+    
+public function getLastStatus($userId) {
+    $stmt = $this->conn->prepare("SELECT status FROM student_status WHERE student_id = :id ORDER BY timestamp DESC LIMIT 1");
+    $stmt->bindParam(':id', $userId);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result ? $result['status'] : null;
+}
 }
 ?>
