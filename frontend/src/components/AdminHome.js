@@ -14,7 +14,6 @@ const AdminHome = () => {
 
     const fetchAdminData = async () => {
       try {
-        // 🔐 Проверка на потребителя
         const userRes = await fetch("http://localhost/UKTC-TESSIS/backend/src/routes/user.php", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,7 +30,6 @@ const AdminHome = () => {
 
         setUser(userData.user);
 
-        // 📦 Вземане на записи за седмицата
         const statusRes = await fetch(
             "http://localhost/UKTC-TESSIS/backend/src/routes/auth.php?action=get_week_records",
             {
@@ -43,8 +41,6 @@ const AdminHome = () => {
         );
 
         const raw = await statusRes.text();
-        console.log("📦 Суров отговор:", raw);
-
         let records = [];
 
         try {
@@ -56,7 +52,6 @@ const AdminHome = () => {
         } catch (err) {
           console.error("❌ JSON parse error:", err);
         }
-
 
         const enrolled = records.filter((r) => r.status === "enrolled");
         const unenrolled = records.filter((r) => r.status === "unenrolled");
@@ -83,19 +78,20 @@ const AdminHome = () => {
         {/* Записани */}
         <section className="mb-10">
           <h2 className="text-xl font-semibold text-green-700 mb-4">📗 Записани студенти</h2>
-          <StatusTable data={enrolledList} />
+          <StatusTable data={enrolledList} showLocation={false} />
         </section>
 
         {/* Отписани */}
         <section>
           <h2 className="text-xl font-semibold text-red-700 mb-4">📕 Отписани студенти</h2>
-          <StatusTable data={unenrolledList} />
+          <StatusTable data={unenrolledList} showLocation={true} />
         </section>
       </div>
   );
 };
 
-const StatusTable = ({ data }) => {
+// ✨ Компонент с опция дали да показва колоната "Локация"
+const StatusTable = ({ data, showLocation }) => {
   if (!data.length) {
     return <p className="italic text-gray-500 text-sm">Няма налични записи.</p>;
   }
@@ -109,7 +105,7 @@ const StatusTable = ({ data }) => {
             <th className="text-left p-3">Име</th>
             <th className="text-left p-3">Имейл</th>
             <th className="text-left p-3">Дата</th>
-            <th className="text-left p-3">Локация</th>
+            {showLocation && <th className="text-left p-3">Локация</th>}
           </tr>
           </thead>
           <tbody>
@@ -118,8 +114,12 @@ const StatusTable = ({ data }) => {
                 <td className="p-3">{idx + 1}</td>
                 <td className="p-3">{entry.full_name}</td>
                 <td className="p-3">{entry.email}</td>
-                <td className="p-3">{new Date(entry.timestamp).toLocaleString()}</td>
-                <td className="p-3">{entry.location || "-"}</td>
+                <td className="p-3">
+                  {entry.timestamp ? new Date(entry.timestamp).toLocaleString() : "-"}
+                </td>
+                {showLocation && (
+                    <td className="p-3">{entry.location || "-"}</td>
+                )}
               </tr>
           ))}
           </tbody>

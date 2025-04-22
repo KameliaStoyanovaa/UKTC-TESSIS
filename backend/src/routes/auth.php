@@ -95,14 +95,17 @@ if ($requestMethod == "GET" && $_GET['action'] == 'get_week_records') {
     $endOfWeek = date("Y-m-d 23:59:59", strtotime("sunday this week"));
 
     $sql = "
-        SELECT 
-            u.id, u.full_name, u.email,
-            ss.status, ss.timestamp, ss.location
-        FROM student_status ss
-        INNER JOIN users u ON u.id = ss.student_id
-        WHERE ss.timestamp BETWEEN '$startOfWeek' AND '$endOfWeek'
-        ORDER BY ss.timestamp DESC
-    ";
+    SELECT u.id, u.full_name, u.email, ss.status, ss.timestamp, ss.location
+    FROM student_status ss
+    INNER JOIN (
+        SELECT student_id, MAX(timestamp) AS latest_time
+        FROM student_status
+        WHERE timestamp BETWEEN '$startOfWeek' AND '$endOfWeek'
+        GROUP BY student_id
+    ) latest ON ss.student_id = latest.student_id AND ss.timestamp = latest.latest_time
+    INNER JOIN users u ON u.id = ss.student_id
+    ORDER BY ss.timestamp DESC
+";
 
     $stmt = $db->query($sql);
 
