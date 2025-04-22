@@ -72,11 +72,12 @@ const Register = () => {
               Изберете роля:
             </label>
             <select
-              id="role"
-              name="role"
-              onChange={(e) => setRole(e.target.value)}
-              required
-              className="w-full border mt-1 rounded-md px-3 py-2"
+                id="role"
+                name="role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+                className="w-full border mt-1 rounded-md px-3 py-2"
             >
               <option value="admin">Администратор</option>
               <option value="student">Студент</option>

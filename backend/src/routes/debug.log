@@ -1,17 +1,5 @@
 Array
 (
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
     [action] => login
 )
 Array
@@ -20,345 +8,33 @@ Array
 )
 Array
 (
-    [action] => get_status_lists
+    [action] => get_week_records
 )
 Array
 (
-    [action] => get_status_lists
+    [action] => get_week_records
 )
 Array
 (
-    [action] => get_status_lists
+    [action] => get_week_records
 )
 Array
 (
-    [action] => get_status_lists
+    [action] => get_week_records
 )
 Array
 (
-    [action] => login
+    [action] => get_week_records
 )
 Array
 (
-    [action] => login
+    [action] => get_week_records
 )
 Array
 (
-    [action] => get_status_lists
+    [action] => get_week_records
 )
 Array
 (
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => update_status
-)
-Array
-(
-    [action] => update_status
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => update_status
-)
-Array
-(
-    [action] => update_status
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => login
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
-)
-Array
-(
-    [action] => get_status_lists
+    [action] => get_week_records
 )
