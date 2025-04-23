@@ -16,7 +16,6 @@ const Login = () => {
 
     if (data?.token) {
       localStorage.setItem("token", data.token);
-      console.log(data.token);
       try {
         const res = await fetch("http://localhost/UKTC-TESSIS/backend/src/routes/user.php", {
           headers: {
@@ -26,8 +25,6 @@ const Login = () => {
         });
 
         const text = await res.text();
-        console.log("Отговор от user.php:", text);
-
         let result;
         try {
           result = JSON.parse(text);
@@ -51,50 +48,39 @@ const Login = () => {
   };
 
   return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-600 to-red-800">
-        <div className="bg-white shadow-xl rounded-2xl p-10 w-full max-w-md flex flex-col items-center">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">Вход в системата</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white shadow-lg rounded-2xl p-10 w-full max-w-md flex flex-col items-center">
+        <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">Вход в системата</h2>
 
-          <form onSubmit={handleLogin} className="space-y-6 w-full">
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-            />
-            <input
-                type="password"
-                placeholder="Парола"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-            />
+        <form onSubmit={handleLogin} className="space-y-6 w-full">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+          />
+          <input
+            type="password"
+            placeholder="Парола"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+          />
 
-            <button
-                type="submit"
-                className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition duration-300"
-            >
-              Вход
-            </button>
-          </form>
+          <button
+            type="submit"
+            className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition duration-300"
+          >
+            Вход
+          </button>
+        </form>
 
-          {error && (
-              <p className="text-red-600 text-sm mt-4 text-center">{error}</p>
-          )}
-
-          <div className="text-sm mt-6 flex justify-between w-full">
-            <a href="/forgot-password" className="text-red-500 hover:underline">
-              Забравена парола?
-            </a>
-            <a href="/register" className="text-red-500 hover:underline">
-              Нямаш акаунт? Регистрация
-            </a>
-          </div>
-        </div>
+        {error && <p className="text-red-600 text-sm mt-4 text-center">{error}</p>}
       </div>
+    </div>
   );
 };
 

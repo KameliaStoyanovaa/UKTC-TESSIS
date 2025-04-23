@@ -25,13 +25,13 @@ const Register = () => {
       <div className="bg-white rounded-t-3xl p-6 w-full max-w-md shadow-lg">
         {/* Заглавие */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-4xl font-bold text-black">Sign Up</h2>
+          <h2 className="text-4xl font-bold text-black">Регистрация</h2>
           <button className="text-red-600 text-2xl">&times;</button>
         </div>
         <p className="mb-6 text-sm">
-          Already registered?{" "}
+          Имаш акаунт?{" "}
           <a href="/login" className="font-semibold underline">
-            Log in
+            Вход
           </a>
         </p>
 
@@ -41,7 +41,7 @@ const Register = () => {
             <span className="absolute left-3 top-3 text-gray-500">👤</span>
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Име"
               onChange={(e) => setName(e.target.value)}
               required
               className="w-full border rounded-md pl-10 pr-4 py-2 focus:outline-none"
@@ -51,7 +51,7 @@ const Register = () => {
             <span className="absolute left-3 top-3 text-gray-500">✉️</span>
             <input
               type="email"
-              placeholder="Email"
+              placeholder="Имейл"
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full border rounded-md pl-10 pr-4 py-2 focus:outline-none"

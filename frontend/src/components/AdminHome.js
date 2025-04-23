@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaUserGraduate, FaUserSlash } from "react-icons/fa";
 
 const AdminHome = () => {
   const [user, setUser] = useState(null);
@@ -31,13 +32,13 @@ const AdminHome = () => {
         setUser(userData.user);
 
         const statusRes = await fetch(
-            "http://localhost/UKTC-TESSIS/backend/src/routes/auth.php?action=get_week_records",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/json",
-              },
-            }
+          "http://localhost/UKTC-TESSIS/backend/src/routes/auth.php?action=get_week_records",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          }
         );
 
         const raw = await statusRes.text();
@@ -72,34 +73,37 @@ const AdminHome = () => {
   if (loading) return <p className="text-center mt-10 text-lg">Зареждане...</p>;
 
   return (
-      <div className="max-w-6xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-center mb-10">Админ Панел</h1>
+    <div className="max-w-6xl mx-auto p-6">
+      <h1 className="text-4xl font-bold text-center mb-12">Админ Панел</h1>
 
-        {/* Записани */}
-        <section className="mb-10">
-          <h2 className="text-xl font-semibold text-green-700 mb-4">📗 Записани студенти</h2>
-          <StatusTable data={enrolledList} showLocation={false} />
-        </section>
+      {/* Записани */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-semibold text-green-700 mb-4 flex items-center gap-2">
+          <FaUserGraduate className="text-green-600" /> Записани студенти
+        </h2>
+        <StatusTable data={enrolledList} showLocation={false} />
+      </section>
 
-        {/* Отписани */}
-        <section>
-          <h2 className="text-xl font-semibold text-red-700 mb-4">📕 Отписани студенти</h2>
-          <StatusTable data={unenrolledList} showLocation={true} />
-        </section>
-      </div>
+      {/* Отписани */}
+      <section>
+        <h2 className="text-2xl font-semibold text-red-700 mb-4 flex items-center gap-2">
+          <FaUserSlash className="text-red-600" /> Отписани студенти
+        </h2>
+        <StatusTable data={unenrolledList} showLocation={true} />
+      </section>
+    </div>
   );
 };
 
-// ✨ Компонент с опция дали да показва колоната "Локация"
 const StatusTable = ({ data, showLocation }) => {
   if (!data.length) {
     return <p className="italic text-gray-500 text-sm">Няма налични записи.</p>;
   }
 
   return (
-      <div className="overflow-x-auto border rounded shadow">
-        <table className="min-w-full table-auto text-sm">
-          <thead className="bg-gray-100">
+    <div className="overflow-x-auto border rounded-lg shadow-sm">
+      <table className="min-w-full table-auto text-sm bg-white">
+        <thead className="bg-gray-100 text-gray-700">
           <tr>
             <th className="text-left p-3">#</th>
             <th className="text-left p-3">Име</th>
@@ -107,24 +111,24 @@ const StatusTable = ({ data, showLocation }) => {
             <th className="text-left p-3">Дата</th>
             {showLocation && <th className="text-left p-3">Локация</th>}
           </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
           {data.map((entry, idx) => (
-              <tr key={entry.id + "_" + idx} className="border-t hover:bg-gray-50">
-                <td className="p-3">{idx + 1}</td>
-                <td className="p-3">{entry.full_name}</td>
-                <td className="p-3">{entry.email}</td>
-                <td className="p-3">
-                  {entry.timestamp ? new Date(entry.timestamp).toLocaleString() : "-"}
-                </td>
-                {showLocation && (
-                    <td className="p-3">{entry.location || "-"}</td>
-                )}
-              </tr>
+            <tr key={entry.id + "_" + idx} className="border-t hover:bg-gray-50 transition">
+              <td className="p-3">{idx + 1}</td>
+              <td className="p-3 font-medium">{entry.full_name}</td>
+              <td className="p-3">{entry.email}</td>
+              <td className="p-3">
+                {entry.timestamp ? new Date(entry.timestamp).toLocaleString() : "-"}
+              </td>
+              {showLocation && (
+                <td className="p-3">{entry.location || "-"}</td>
+              )}
+            </tr>
           ))}
-          </tbody>
-        </table>
-      </div>
+        </tbody>
+      </table>
+    </div>
   );
 };
 

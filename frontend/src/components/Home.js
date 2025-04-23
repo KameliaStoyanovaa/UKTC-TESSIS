@@ -87,7 +87,6 @@ const UpdateStatus = () => {
       <h2 className="text-2xl font-bold mb-4">Актуализиране на статус</h2>
 
       <div className="mb-4">
-        <label className="block text-gray-700">Здравей,</label>
         <input
           type="text"
           value={fullName}
